@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "make and run",
+      "type": "shell",
+      "command": "make debug && ./bin/moter.exe"
+    }
+  ]
+}
