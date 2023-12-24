@@ -1,0 +1,1 @@
+moter is a chess engine written in c with instructions in "chess programming" youtube channel
