@@ -1,12 +1,14 @@
 /**
- * @file moter.c
+ * @file moter.cpp
  * @brief Main file of the program. Contains the bitboard functions.
  */
 
-#include <stdio.h>
+#include <iostream>
+
+using namespace std;
 
 // define bitboard data type
-#define U64 unsigned long long
+using U64 = unsigned long long;
 // get bit from bitboard
 #define get_bit(bitboard, square) (bitboard & (1ULL << square))
 // define set bit macro
@@ -201,7 +203,8 @@ static inline int lsb(U64 bitbord)
  */
 void print_bitboard(U64 bitboard)
 {
-    printf("\n");
+
+    cout << "\n";
     // loop over board ranks
     for (int rank = 0; rank < 8; rank++)
     {
@@ -213,19 +216,20 @@ void print_bitboard(U64 bitboard)
 
             // print ranks
             if (file == 0)
-                printf(" %d ", 8 - rank);
+                cout << " " << 8 - rank << " ";
 
             // print bit state (1 or 0)
-            printf(" %d ", get_bit(bitboard, square) ? 1 : 0);
+            cout << " " << (get_bit(bitboard, square) ? 1 : 0) << " ";
+            ;
         }
         // print new line every rank
-        printf("\n");
+        cout << "\n";
     }
     // print files
-    printf("\n    a  b  c  d  e  f  g  h  \n\n");
+    cout << "\n    a  b  c  d  e  f  g  h  \n\n";
 
     // print bitboard as unsigned decimal number
-    printf("    bitboard: %llu\n\n", bitboard);
+    cout << "    bitboard: " << bitboard << "\n\n";
 }
 
 /*
@@ -742,21 +746,12 @@ U64 set_occupancies(int index, int bit_in_mask, U64 attack_mask)
 
 int main()
 {
-    printf("I am moter!\n");
+    printf("I am moters!\n");
 
     // init leaper pieces attack
     init_leaper_attacks();
 
-    for (int rank = 0; rank < 8; rank++)
-    {
-        for (int file = 0; file < 8; file++)
-        {
-            int square = (rank * 8) + file;
-
-            printf(" %d, ", count_bits(mask_rook_attacks(square)));
-        }
-        printf("\n");
-    }
+    print_bitboard(11);
 
     return 0;
 }
