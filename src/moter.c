@@ -1,3 +1,8 @@
+/**
+ * @file moter.c
+ * @brief Main file of the program. Contains the bitboard functions.
+ */
+
 #include <stdio.h>
 
 // define bitboard data type
@@ -8,7 +13,7 @@
 #define set_bit(bitboard, square) (bitboard |= (1ULL << square))
 // define clear bit macro
 #define clear_bit(bitboard, square) (bitboard &= ~(1ULL << square))
-
+// board squares names as enum
 enum squares
 {
     a8,
@@ -76,7 +81,7 @@ enum squares
     g1,
     h1
 };
-
+// board squares names as strings array
 const char *square_to_cordinates[] = {
     "a8",
     "b8",
@@ -142,8 +147,21 @@ const char *square_to_cordinates[] = {
     "f1",
     "g1",
     "h1"};
+// board colors
+enum
+{
+    white,
+    black
+};
 
-// count bits within a board
+/**
+ * @brief bit counter.
+ *
+ * This function counts bits within a bitboard.
+ *
+ * @param bitbord An U64 parameter.
+ * @return An int showing how many 1 bits are in the bitboard.
+ */
 static inline int count_bits(U64 bitbord)
 {
     int count = 0;
@@ -157,7 +175,13 @@ static inline int count_bits(U64 bitbord)
     return count;
 }
 
-// get least significant 1st bit index
+/**
+ * @brief least significant 1st bit index
+ *
+ *
+ * @param bitbord An U64 parameter.
+ * @return An int showing the least significant 1st bit index. returns -1 if bitbord is 0
+ */
 static inline int lsb(U64 bitbord)
 {
     // make sure its not 0
@@ -169,22 +193,12 @@ static inline int lsb(U64 bitbord)
         return -1;
 }
 
-// board squares name as strings as enum
-
-enum
-{
-    white,
-    black
-};
-
-U64 get_u64()
-{
-    U64 u64;
-    scanf("%llu", &u64);
-    return u64;
-}
-
 // print bitboard
+/**
+ * @brief Print bitboard in a 8*8 board form with ranks and files.
+ *
+ * @param bitboard An U64 parameter.
+ */
 void print_bitboard(U64 bitboard)
 {
     printf("\n");
@@ -415,7 +429,13 @@ U64 knight_attacks[64];
 // king attacks table [square]
 U64 king_attacks[64];
 
-// genreate pawn attacks
+/**
+ * @brief Generate mask for pawn attacks for white or black.
+ *
+ * @param side 0 for white, 1 for black
+ * @param square the square to generate attacks for
+ * @return U64 the attacks
+ */
 U64 mask_pawn_attacks(int side, int square)
 {
     U64 attacks = 0ULL;
@@ -441,7 +461,12 @@ U64 mask_pawn_attacks(int side, int square)
     return attacks;
 };
 
-// generate knight attacks
+/**
+ * @brief Generate mask for knight attacks.
+ *
+ * @param square the square to generate attacks for
+ * @return U64 the attacks
+ */
 U64 mask_knight_attacks(int square)
 {
     U64 attacks = 0ULL;
@@ -469,7 +494,12 @@ U64 mask_knight_attacks(int square)
     return attacks;
 }
 
-// generate king attacks
+/**
+ * @brief Generate mask for king attacks.
+ *
+ * @param square the square to generate attacks for
+ * @return U64 the attacks
+ */
 U64 mask_king_attacks(int square)
 {
     U64 attacks = 0ULL;
@@ -496,7 +526,12 @@ U64 mask_king_attacks(int square)
     return attacks;
 }
 
-// mask bishop attacks
+/**
+ * @brief Generate mask for bishop attacks.
+ *
+ * @param square the square to generate attacks for
+ * @return U64 the attacks
+ */
 U64 mask_bishop_attacks(int square)
 {
     // result attacks bitboard
@@ -523,7 +558,12 @@ U64 mask_bishop_attacks(int square)
     return attacks;
 }
 
-// mask rook attacks
+/**
+ * @brief Generate mask for rook attacks.
+ *
+ * @param square the square to generate attacks for
+ * @return U64 the attacks
+ */
 U64 mask_rook_attacks(int square)
 {
     // result attacks bitboard
@@ -550,7 +590,13 @@ U64 mask_rook_attacks(int square)
     return attacks;
 }
 
-// generate bishop attacks on the fly
+/**
+ * @brief Generate bishop attacks on the fly.
+ *
+ * @param square the square to generate attacks for
+ * @param block the bitboard of blocking pieces on the board
+ * @return U64 the attacks
+ */
 U64 bishop_attacks_on_the_fly(int square, U64 block)
 {
     // result attacks bitboard
@@ -596,7 +642,13 @@ U64 bishop_attacks_on_the_fly(int square, U64 block)
     return attacks;
 }
 
-// generate rook attacks on the fly
+/**
+ * @brief Generate rook attacks on the fly.
+ *
+ * @param square the square to generate attacks for
+ * @param block the bitboard of blocking pieces on the board
+ * @return U64 the attacks
+ */
 U64 rook_attacks_on_the_fly(int square, U64 block)
 {
     // result attacks bitboard
@@ -642,7 +694,9 @@ U64 rook_attacks_on_the_fly(int square, U64 block)
     return attacks;
 }
 
-// initialize leaper pieces attack
+/**
+ * @brief Initialize leaper attack data structures.
+ */
 void init_leaper_attacks()
 {
     for (int square = 0; square < 64; square++)
@@ -660,6 +714,9 @@ void init_leaper_attacks()
 }
 
 // set occupancies
+/**
+ * @brief Set occupancies of a range of bits within a bitboard.
+ */
 U64 set_occupancies(int index, int bit_in_mask, U64 attack_mask)
 {
     // init occupancies

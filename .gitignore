@@ -1,1 +1,13 @@
-moter.exe
+# Ignore compiled files
+*.o
+*.exe
+
+# Ignore object and binary directories
+obj/
+bin/
+
+# Ignore temporary files
+*~
+
+# Ignore editor-specific files
+.vscode/
